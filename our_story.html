@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Timeline</title>
+    <style>
+        :root {
+            --primary-color: #ff4757;
+            --secondary-color: #ff6b81;
+            --background-gradient: linear-gradient(135deg, #ffeef0 0%, #fff5f6 100%);
+            --text-color: #2f3542;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--background-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #57606f;
+        }
+
+        /* Live Ticking Counter */
+        .counter-box {
+            background: var(--card-bg);
+            padding: 30px 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(255, 71, 87, 0.1);
+            display: flex;
+            gap: 25px;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .time-segment {
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .time-segment span {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-segment label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #747d8c;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        /* Interactive Timeline Layout */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '❤️';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            right: -12px;
+            top: 25px;
+            z-index: 1;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
+
+        .right::after { left: -12px; }
+
+        .card {
+            padding: 24px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            transition: transform 0.3s ease;
+            display: inline-block;
+            width: 100%;
+            text-align: left;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            margin-bottom: 5px;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .card .date-badge {
+            display: inline-block;
+            background: #ffeef0;
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #57606f;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+        }
+
+        /* Mobile View Optimization */
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 45px; padding-right: 10px; }
+            .timeline-item::after { left: 8px; top: 25px; }
+            .left { left: 0; text-align: left; }
+            .right { left: 0; text-align: left; }
+            .counter-box { gap: 15px; padding: 20px; }
+            .time-segment span { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <!-- CHANGE ME: Your Title -->
+        <h1>The Story of Us</h1>
+        <h1>It's Kucchi Baby chap chap </h1>
+        <p>Every single second since our stars aligned...</p>
+    </header>
+
+    <!-- Real-time Counter Grid -->
+    <div class="counter-box">
+        <div class="time-segment"><span id="years">00</span><label>Years</label></div>
+        <div class="time-segment"><span id="days">00</span><label>Days</label></div>
+        <div class="time-segment"><span id="hours">00</span><label>Hours</label></div>
+        <div class="time-segment"><span id="minutes">00</span><label>Minutes</label></div>
+        <div class="time-segment"><span id="seconds">00</span><label>Seconds</label></div>
+    </div>
+
+    <!-- Photos Timeline Sections -->
+    <div class="timeline">
+        
+        <!-- Timeline Item 1 -->
+        <div class="timeline-item left">
+            <div class="card">
+                <span class="date-badge">14 February 2024</span>
+                <h3>The Day We Met</h3>
+                <p>A random coffee shop run turned into the first page of our favorite book.</p>
+                <img src="https://unsplash.com" alt="Met">
+            </div>
+        </div>
+
+        <!-- Timeline Item 2 -->
+        <div class="timeline-item right">
+            <div class="card">
+                <span class="date-badge">20 May 2024</span>
+                <h3>First Official Road Trip</h3>
+                <p>Blasting music with the windows down. That's when I knew it was real.</p>
+                <img src="https://unsplash.com" alt="Road Trip">
+            </div>
+        </div>
+
+        <!-- Timeline Item 3 -->
+        <div class="timeline-item left">
+            <div class="card">
+                <span class="date-badge">31 December 2025</span>
+                <h3>New Year's Eve</h3>
+                <p>Welcoming a brand new chapter right next to my favorite person in the world.</p>
+                <img src="https://unsplash.com" alt="New Year">
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION: SET YOUR SPECIAL MOMENT HERE
+        // ==========================================
+        // Format parameters: (Year, MonthIndex, Day, Hours, Minutes, Seconds)
+        // IMPORTANT: Months are index-based starting at 0 (0=Jan, 1=Feb, 2=Mar... 11=Dec)
+        // Examples: Feb 14, 2024 at 15:30:00 -> new Date(2024, 1, 14, 15, 30, 0)
+        const anniversaryDate = new Date(2024, 1, 14, 15, 30, 0); 
+
+        function runLiveCounter() {
+            const now = new Date();
+            let durationMs = now - anniversaryDate;
+
+            if (durationMs < 0) durationMs = 0; // Guard for future dates
+
+            const msPerSec = 1000;
+            const msPerMin = msPerSec * 60;
+            const msPerHour = msPerMin * 60;
+            const msPerDay = msPerHour * 24;
+            const msPerYear = msPerDay * 365.25; // Accounting for leap calendar years
+
+            const calculatedYears = Math.floor(durationMs / msPerYear);
+            const calculatedDays = Math.floor((durationMs % msPerYear) / msPerDay);
+            const calculatedHours = Math.floor((durationMs % msPerDay) / msPerHour);
+            const calculatedMinutes = Math.floor((durationMs % msPerHour) / msPerMin);
+            const calculatedSeconds = Math.floor((durationMs % msPerMin) / msPerSec);
+
+            document.getElementById('years').textContent = String(calculatedYears).padStart(2, '0');
+            document.getElementById('days').textContent = String(calculatedDays).padStart(2, '0');
+            document.getElementById('hours').textContent = String(calculatedHours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(calculatedMinutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(calculatedSeconds).padStart(2, '0');
+        }
+
+        runLiveCounter();
+        setInterval(runLiveCounter, 1000);
+    </script>
+</body>
+</html>
